@@ -53,3 +53,23 @@ functions
    ssize_t ft_str_store(char **dest, char *buf, ssize_t rb);
    size_t ft_readlines(char **line, size_t pt);
    #endif
+
+processing inputs
+-----------------
+
+1. redirection
+
+2. stdin
+
+When you use the ``<`` symbol on the command line,
+The OS reads the file for that and gives the contents to your program via ``stdin``
+
+.. code-block:: c
+
+   int main(){
+       char line[256];
+       FILE *fp = stdin;
+       while(fgets(line, sizeof(line), fp) != NULL)
+           printf("%s", line);
+       
+   }

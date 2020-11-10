@@ -6,7 +6,7 @@
 /*   By: jihhan <junehan.dev@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 12:40:39 by jihhan            #+#    #+#             */
-/*   Updated: 2020/11/08 14:56:38 by jihhan           ###   ########.fr       */
+/*   Updated: 2020/11/10 13:40:09 by jihhan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int get_next_line(int fd, char **line)
     rb = 0;
     while (rb < BUFFER_SIZE)
         buf[rb++] = 0;
-    
     buf_pt = NULL;
-     
     while ((rb = read(fd, buf, BUFFER_SIZE)) >= 0) //eof + first running
     {
         if (!rb)
@@ -77,13 +75,17 @@ int get_next_line(int fd, char **line)
 
 #include <stdlib.h>
 
-int main(void)
+int main(int argc, char *argv[]) 
 {
     int fd;
     char **line;
     int ret;
 
-    fd = open("./sample.txt", O_RDONLY);
+    if (argc == 2)
+        fd = open(*(argv + 1), O_RDONLY);
+    else 
+        fd = STDIN_FILENO;
+
     if (fd < 0)
     {
         write(STDOUT_FILENO, "non opend\n", 10);
@@ -97,5 +99,7 @@ int main(void)
         write(STDOUT_FILENO, "Error\n", 6);
     if (!ret)    
         write(STDOUT_FILENO, "Passed\n", 7);
-    close(fd);
+    if (fd)
+        close(fd);
+    exit(0);
 }
